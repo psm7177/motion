@@ -10,7 +10,7 @@ const Cont = styled.div`
 const Canvas = styled.canvas`
   position: absolute;
   width: inherit;
-  height: 900px;
+  height: 100vh;
   z-index: -1;
   filter: blur(100px);
 `;
@@ -45,7 +45,7 @@ function makeCircle(width: number, height: number): Circle {
   const y = Math.random() * (height - radius - radius) + radius;
 
   const radian = Math.random() * 360;
-  const speed = Math.random() * (200 - 30) + 30;
+  const speed = Math.random() * (500 - 200) + 200;
   const velocityX = speed * Math.cos(radian);
   const velocityY = speed * Math.sin(radian);
 
@@ -55,6 +55,10 @@ function makeCircle(width: number, height: number): Circle {
     velocity: { x: velocityX, y: velocityY },
     color: "#e9d2fd",
   };
+}
+
+function boundary(value: number, min: number, max: number) {
+  return Math.max(Math.min(value, max), min);
 }
 
 export default function LetsStart() {
@@ -70,7 +74,7 @@ export default function LetsStart() {
   const objects = useMemo(
     () =>
       !!width && !!height
-        ? Array.from({ length: 10 }, () => makeCircle(width, height))
+        ? Array.from({ length: 15 }, () => makeCircle(width, height))
         : [makeCircle(1920, 1080)],
     [width, height]
   );
@@ -94,6 +98,8 @@ export default function LetsStart() {
         ) {
           obj.velocity.y *= -1;
         }
+        if (width) obj.position.x = boundary(obj.position.x, 0, width);
+        if (height) obj.position.y = boundary(obj.position.y, 0, height);
       }
     },
     [height, objects, width]
@@ -158,7 +164,7 @@ export default function LetsStart() {
 
   return (
     <Cont>
-      <Canvas width={1920} height={900} ref={canvasRef} />
+      <Canvas width={1920} height={1080} ref={canvasRef} />
       <Board>HAPPY</Board>
     </Cont>
   );
