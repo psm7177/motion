@@ -98,8 +98,8 @@ export default function LetsStart() {
         ) {
           obj.velocity.y *= -1;
         }
-        if (width) obj.position.x = boundary(obj.position.x, 0, width);
-        if (height) obj.position.y = boundary(obj.position.y, 0, height);
+        if (width) obj.position.x = boundary(obj.position.x, obj.radius, width - obj.radius);
+        if (height) obj.position.y = boundary(obj.position.y, obj.radius, height - obj.radius);
       }
     },
     [height, objects, width]
